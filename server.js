@@ -5,7 +5,7 @@ import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
 
 const port = process.env.PORT;
 const app = express();
-
+console.log('process.env.emanuela:',process.env.EMANUELA);
 app.use(express.json());
 
 app.use(postsMainPath, postsRouter);
@@ -15,3 +15,4 @@ app.get("/", endpointsInfosHTMLResponse);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port} \n`);
 });
+
