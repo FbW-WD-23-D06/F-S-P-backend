@@ -1,4 +1,5 @@
 import "./config.js";
+import "./db-connect.js"
 import express from "express";
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
