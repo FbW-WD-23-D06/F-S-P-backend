@@ -1,4 +1,5 @@
 import "./config.js";
+import "./db-connect.js";
 import express from "express";
 import cors from "cors"; // Importiere das cors-Paket
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
@@ -20,7 +21,7 @@ const corsOptions = {
   },
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(postsMainPath, postsRouter);
 
