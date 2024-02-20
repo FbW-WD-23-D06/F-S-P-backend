@@ -1,13 +1,12 @@
 import express from "express";
+import { getAllPosts } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
 
 const postsMainPath = "/posts";
 
 postsRouter
-  .get("/", (req, res) => {
-    res.send("Hello from postRoutes");
-  })
+  .get("/", getAllPosts)
   .post("/", (req, res) => {
     res.send("Hello from post postRoutes");
   })
