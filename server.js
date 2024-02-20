@@ -10,10 +10,13 @@ const app = express();
 
 app.use(express.json());
 
-const allowedOrigins = ["https://post-master.onrender.com"];
+const allowedOrigins = [
+  "https://post-master.onrender.com",
+  "http://localhost:8888 ",
+];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin)) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -21,7 +24,7 @@ const corsOptions = {
   },
 };
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(postsMainPath, postsRouter);
 
