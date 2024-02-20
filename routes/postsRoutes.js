@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllPosts } from "../controllers/postsControllers.js";
+import { getAllPosts, addPost } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
 
@@ -7,9 +7,7 @@ const postsMainPath = "/posts";
 
 postsRouter
   .get("/", getAllPosts)
-  .post("/", (req, res) => {
-    res.send("Hello from post postRoutes");
-  })
+  .post("/", addPost)
   .get("/:id", (req, res) => {
     res.send("Hello from get one postRoutes");
   })
