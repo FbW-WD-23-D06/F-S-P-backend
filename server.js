@@ -1,7 +1,7 @@
 import "./config.js";
 import "./db-connect.js";
 import express from "express";
-import cors from "cors"; // Importiere das cors-Paket
+import cors from "cors";
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
 
@@ -12,7 +12,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "https://post-master.onrender.com",
-  "http://localhost:8888 ",
+  "http://localhost:5173/",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
