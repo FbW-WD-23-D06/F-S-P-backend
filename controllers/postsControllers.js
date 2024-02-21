@@ -36,6 +36,9 @@ export const getOnePost = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.findById(id);
+    if (!post) {
+      throw new Error("Post nox exists");
+    }
     res.json({ message: "Post found", post });
   } catch (error) {
     console.log("error:", error);
@@ -45,6 +48,12 @@ export const getOnePost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
   try {
+    const { id } = req.params;
+    const postToDelete = await Post.findByIdAndDelete(id);
+    if (!postToDelete) {
+      throw new Error("Post nox exists");
+    }
+    res.json({ message: "Post deleted", postToDelete });
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });

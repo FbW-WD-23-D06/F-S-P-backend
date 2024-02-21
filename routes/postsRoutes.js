@@ -3,7 +3,8 @@ import {
   getAllPosts,
   addPost,
   deleteAllPosts,
-  getOnePost
+  getOnePost,
+  deletePost
 } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
@@ -23,9 +24,7 @@ postsRouter
   .patch((req, res) => {
     res.send("Hello from patch");
   })
-  .delete((req, res) => {
-    res.send("Hello from delete one postRoutes");
-  });
+  .delete(deletePost);
 
 const postsRoutesInfos = [
   { path: `${postsMainPath}`, method: "GET", description: "Get all posts" },
