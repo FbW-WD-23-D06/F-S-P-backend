@@ -80,9 +80,13 @@ export const updatePost = async (req, res) => {
 export const updatePartialPost = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedPost = await Post.findOneAndUpdate(id, req.body, {
-      new: true,
-    });
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      {
+        new: true,
+      }
+    );
     if (!updatedPost) {
       return res.status(404).json({ message: "Post not found!" });
     }
