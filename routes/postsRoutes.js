@@ -3,6 +3,7 @@ import {
   getAllPosts,
   addPost,
   deleteAllPosts,
+  getOnePost
 } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
@@ -15,9 +16,7 @@ postsRouter.route("/delete-all").delete(deleteAllPosts);
 
 postsRouter
   .route("/:id")
-  .get((req, res) => {
-    res.send("Hello from get one postRoutes");
-  })
+  .get(getOnePost)
   .put((req, res) => {
     res.send("Hello from put one postRoutes");
   })
