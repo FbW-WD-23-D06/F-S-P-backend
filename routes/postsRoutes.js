@@ -6,6 +6,7 @@ import {
   getOnePost,
   deletePost,
   updatePost,
+  updatePartialPost
 } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
@@ -20,9 +21,7 @@ postsRouter
   .route("/:id")
   .get(getOnePost)
   .put(updatePost)
-  .patch((req, res) => {
-    res.send("Hello from patch");
-  })
+  .patch(updatePartialPost)
   .delete(deletePost);
 
 const postsRoutesInfos = [

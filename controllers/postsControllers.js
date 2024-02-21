@@ -49,11 +49,11 @@ export const getOnePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
-    const postToDelete = await Post.findByIdAndDelete(id);
-    if (!postToDelete) {
-      throw new Error("Post nox exists");
+    const deletedPost = await Post.findByIdAndDelete(id);
+    if (!deletedPost) {
+      return res.status(404).json({ message: "Post not found!" });
     }
-    res.json({ message: "Post deleted", postToDelete });
+    res.json({ message: "Post deleted", deletedPost });
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
@@ -64,19 +64,29 @@ export const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
     const newPost = req.body;
-    const postToUpdate = await Post.findByIdAndUpdate(id, newPost);
-    if (!postToUpdate) {
-      throw new Error("Post nox exists");
+    const updatedPost = await Post.findByIdAndUpdate(id, newPost, {
+      new: true,
+    });
+    if (!updatedPost) {
+      return res.status(404).json({ message: "Post not found!" });
     }
-    res.json({ message: "Post updated", postToUpdate });
+    res.json({ message: "Post updated", updatedPost });
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
-export const updatePostKey = async (req, res) => {
+export const updatePartialPost = async (req, res) => {
   try {
+    const { id } = req.params;
+    const updatedPost = await Post.findOneAndUpdate(id, req.body, {
+      new: true,
+    });
+    if (!updatedPost) {
+      return res.status(404).json({ message: "Post not found!" });
+    }
+    res.json({ message: "Post updated", updatedPost });
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
