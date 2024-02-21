@@ -62,6 +62,13 @@ export const deletePost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   try {
+    const { id } = req.params;
+    const newPost = req.body;
+    const postToUpdate = await Post.findByIdAndUpdate(id, newPost);
+    if (!postToUpdate) {
+      throw new Error("Post nox exists");
+    }
+    res.json({ message: "Post updated", postToUpdate });
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });

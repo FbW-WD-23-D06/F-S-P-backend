@@ -4,7 +4,8 @@ import {
   addPost,
   deleteAllPosts,
   getOnePost,
-  deletePost
+  deletePost,
+  updatePost,
 } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
@@ -18,9 +19,7 @@ postsRouter.route("/delete-all").delete(deleteAllPosts);
 postsRouter
   .route("/:id")
   .get(getOnePost)
-  .put((req, res) => {
-    res.send("Hello from put one postRoutes");
-  })
+  .put(updatePost)
   .patch((req, res) => {
     res.send("Hello from patch");
   })
