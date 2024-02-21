@@ -10,6 +10,8 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
+
+
 export const addPost = async (req, res) => {
   try {
     const { title, content } = req.body;
@@ -21,3 +23,48 @@ export const addPost = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteAllPosts = async (req, res) => {
+  try {
+    await Post.deleteMany()
+    res.status(200).json({ msg: "All users deleted" });
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+export const getOnePost = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updatePost = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updatePostKey = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+

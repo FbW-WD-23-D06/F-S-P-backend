@@ -1,11 +1,17 @@
 import express from "express";
-import { getAllPosts, addPost } from "../controllers/postsControllers.js";
+import {
+  getAllPosts,
+  addPost,
+  deleteAllPosts,
+} from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
 
 const postsMainPath = "/posts";
 
 postsRouter.route("/").get(getAllPosts).post(addPost);
+
+postsRouter.route("/delete-all").delete(deleteAllPosts);
 
 postsRouter
   .route("/:id")
@@ -14,6 +20,9 @@ postsRouter
   })
   .put((req, res) => {
     res.send("Hello from put one postRoutes");
+  })
+  .patch((req, res) => {
+    res.send("Hello from patch");
   })
   .delete((req, res) => {
     res.send("Hello from delete one postRoutes");
