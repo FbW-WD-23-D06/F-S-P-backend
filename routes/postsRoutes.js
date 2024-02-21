@@ -5,16 +5,17 @@ const postsRouter = express.Router();
 
 const postsMainPath = "/posts";
 
+postsRouter.route("/").get(getAllPosts).post(addPost);
+
 postsRouter
-  .get("/", getAllPosts)
-  .post("/", addPost)
-  .get("/:id", (req, res) => {
+  .route("/:id")
+  .get((req, res) => {
     res.send("Hello from get one postRoutes");
   })
-  .put("/:id", (req, res) => {
+  .put((req, res) => {
     res.send("Hello from put one postRoutes");
   })
-  .delete("/:id", (req, res) => {
+  .delete((req, res) => {
     res.send("Hello from delete one postRoutes");
   });
 

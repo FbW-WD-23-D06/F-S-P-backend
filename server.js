@@ -1,5 +1,5 @@
 import "./config.js";
-import "./db-connect.js"
+import "./db-connect.js";
 import express from "express";
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
@@ -16,4 +16,3 @@ app.get("/", endpointsInfosHTMLResponse);
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port} \n`);
 });
-
