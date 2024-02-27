@@ -1,6 +1,6 @@
-import { Post } from "../models/postsModel.js";
+import Post from "../models/postsModel.js";
 
-export const getAllPosts = async (req, res) => {
+const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find();
     res.json(posts);
@@ -10,7 +10,7 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
-export const addPost = async (req, res) => {
+const addPost = async (req, res) => {
   try {
     const { title, content } = req.body;
     const newPost = { title, content };
@@ -22,7 +22,7 @@ export const addPost = async (req, res) => {
   }
 };
 
-export const deleteAllPosts = async (req, res) => {
+const deleteAllPosts = async (req, res) => {
   try {
     await Post.deleteMany();
     res.status(200).json({ msg: "All users deleted" });
@@ -32,7 +32,7 @@ export const deleteAllPosts = async (req, res) => {
   }
 };
 
-export const getOnePost = async (req, res) => {
+const getOnePost = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.findById(id);
@@ -46,7 +46,7 @@ export const getOnePost = async (req, res) => {
   }
 };
 
-export const deletePost = async (req, res) => {
+const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedPost = await Post.findByIdAndDelete(id);
@@ -60,7 +60,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-export const updatePost = async (req, res) => {
+const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
     const newPost = req.body;
@@ -77,7 +77,7 @@ export const updatePost = async (req, res) => {
   }
 };
 
-export const updatePartialPost = async (req, res) => {
+const updatePartialPost = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedPost = await Post.findByIdAndUpdate(
@@ -95,4 +95,14 @@ export const updatePartialPost = async (req, res) => {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
   }
+};
+
+export {
+  getAllPosts,
+  addPost,
+  deleteAllPosts,
+  getOnePost,
+  deletePost,
+  updatePost,
+  updatePartialPost,
 };

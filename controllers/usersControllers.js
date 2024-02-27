@@ -18,7 +18,7 @@ const getOneUser = async (req, res) => {
     }
     res.status(200).json({ message: "User found", user });
   } catch (error) {
-    res.staus(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -42,7 +42,7 @@ const deleteUser = async (req, res) => {
     }
     res.status(200).json({ message: "User deleted successfully", user });
   } catch (error) {
-    res.staus(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
