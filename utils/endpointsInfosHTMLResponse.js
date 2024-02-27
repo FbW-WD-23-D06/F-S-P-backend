@@ -1,9 +1,14 @@
 import { postsRoutesInfos } from "../routes/postsRoutes.js";
+import { usersRoutesInfos } from "../routes/usersRoutes.js";
 
 const endpointsInfo = {
   posts: {
     title: "Posts",
     infos: postsRoutesInfos,
+  },
+  users: {
+    title: "Users",
+    infos: usersRoutesInfos,
   },
 };
 
@@ -25,7 +30,7 @@ export default function endpointsInfosHTMLResponse(req, res) {
 
       html += `<li><strong><small>${info.method}</small></strong> ${
         info.method === "GET" ? linkToEndpoint : endPointText
-      }- ${info.description}</li>`;
+      } - ${info.description}</li>`;
     }
 
     html += "</ul>";

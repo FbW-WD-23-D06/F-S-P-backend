@@ -44,4 +44,4 @@ const usersRoutesInfos = [
   },
 ];
 
-export { usersRouter, usersMainPath };
+export { usersRouter, usersMainPath, usersRoutesInfos };
