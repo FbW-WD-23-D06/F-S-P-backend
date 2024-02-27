@@ -9,8 +9,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const deleteAllUsers = async (req, res) => {};
-
 const getOneUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -47,6 +45,8 @@ const deleteUser = async (req, res) => {
     res.staus(500).json({ message: error.message });
   }
 };
+
+const deleteAllUsers = async (req, res) => {};
 
 const updateUser = async (req, res) => {};
 
