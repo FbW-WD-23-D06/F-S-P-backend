@@ -20,8 +20,14 @@ export default function endpointsInfosHTMLResponse(req, res) {
     html += "<ul>";
 
     for (const info of endpoint.infos) {
-      html += `<li><strong><small>${info.method}</small></strong> <a href="${info.path}" target="_blank">${info.path}</a> - ${info.description}</li>`;
+      const linkToEndpoint = `<a href="${info.path}" target="_blank">${info.path}</a>`;
+      const endPointText = `<small>${info.path}</small>`;
+
+      html += `<li><strong><small>${info.method}</small></strong> ${
+        info.method === "GET" ? linkToEndpoint : endPointText
+      }- ${info.description}</li>`;
     }
+
     html += "</ul>";
   }
 
