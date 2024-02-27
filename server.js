@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
+import { usersMainPath, usersRouter } from "./routes/usersRoutes.js";
 
 const port = process.env.PORT;
 const app = express();
@@ -27,6 +28,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(postsMainPath, postsRouter);
+app.use(usersMainPath, usersRouter);
 
 app.get("/", endpointsInfosHTMLResponse);
 
