@@ -6,7 +6,8 @@ import {
   getOnePost,
   deletePost,
   updatePost,
-  updatePartialPost
+  updatePartialPost,
+  getAllPostsWithAuthorInformations
 } from "../controllers/postsControllers.js";
 
 const postsRouter = express.Router();
@@ -14,6 +15,8 @@ const postsRouter = express.Router();
 const postsMainPath = "/posts";
 
 postsRouter.route("/").get(getAllPosts).post(addPost);
+
+postsRouter.get("/author-infos", getAllPostsWithAuthorInformations)
 
 postsRouter.route("/delete-all").delete(deleteAllPosts);
 

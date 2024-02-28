@@ -4,7 +4,23 @@ import User from "../models/usersModel.js";
 const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find();
+    if (!posts.length) {
+      return res.status(404).json({ message: "Posts not found!" });
+    }
     res.json(posts);
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getAllPostsWithAuthorInformations = async (req, res) => {
+  try {
+    const posts = await Post.find().populate("author");
+    if (!posts.length) {
+      return res.status(404).json({ message: "Posts not found!" });
+    }
+    res.json({ message: "Posts found", posts });
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
@@ -110,4 +126,5 @@ export {
   deletePost,
   updatePost,
   updatePartialPost,
+  getAllPostsWithAuthorInformations,
 };
