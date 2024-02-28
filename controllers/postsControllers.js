@@ -1,4 +1,5 @@
 import Post from "../models/postsModel.js";
+import User from "../models/usersModel.js";
 
 const getAllPosts = async (req, res) => {
   try {
@@ -12,8 +13,12 @@ const getAllPosts = async (req, res) => {
 
 const addPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const newPost = { title, content };
+    const { title, content, author } = req.body;
+    const userExists = await User.findById(author);
+    if (!userExists) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const newPost = { title, content, author };
     await Post.create(newPost);
     res.json({ message: "new post addedd", newPost });
   } catch (error) {

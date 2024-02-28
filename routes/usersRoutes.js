@@ -7,6 +7,7 @@ import {
   deleteUser,
   // updateUser,
   // updatePartialUser,
+  getAllPostsOfOneUser,
 } from "../controllers/usersControllers.js";
 
 const usersRouter = express.Router();
@@ -16,6 +17,8 @@ const usersMainPath = "/users";
 usersRouter.route("/").get(getAllUsers).post(addUser);
 
 // usersRouter.route("/delete-all").delete(deleteAllUsers);
+
+usersRouter.get("/posts/:id", getAllPostsOfOneUser);
 
 usersRouter
   .route("/:id")
