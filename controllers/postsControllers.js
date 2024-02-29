@@ -3,7 +3,8 @@ import User from "../models/usersModel.js";
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const { limit, sortOrder } = req.query;
+    const posts = await Post.find().sort({ updatedAt: sortOrder }).limit(limit);
     if (!posts.length) {
       return res.status(404).json({ message: "Posts not found!" });
     }
