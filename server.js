@@ -4,6 +4,7 @@ import express from "express";
 import cors from "cors";
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
+// import Post from "./models/postsModel.js";
 
 const port = process.env.PORT;
 const app = express();
@@ -29,7 +30,8 @@ app.use(cors(corsOptions));
 
 // Middleware to log the method and path of each request
 app.use((req, res, next) => {
-  console.log(`received ${req.method} request to ${req.path}`);
+  console.log(`current request infos: ${req.method}  ${req.path} \n`);
+  next();
 });
 
 app.use(postsMainPath, postsRouter);
