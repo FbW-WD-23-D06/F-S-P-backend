@@ -2,8 +2,13 @@ import { Schema, model } from "mongoose";
 
 const postSchema = new Schema(
   {
-    title: String,
-    content: String,
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -11,4 +16,5 @@ const postSchema = new Schema(
   }
 );
 
-export const Post = model("posts", postSchema);
+const Post = model("post", postSchema);
+export default Post;
