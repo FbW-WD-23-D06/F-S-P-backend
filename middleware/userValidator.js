@@ -1,6 +1,8 @@
 import { body, validationResult } from "express-validator";
 
-const userValidationRules = [];
+const userValidationRules = [
+  body("userName").isString().withMessage("The username must be a string!"),
+];
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
