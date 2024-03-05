@@ -5,6 +5,11 @@ import cors from "cors";
 import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
 
+import {
+  errorResponder,
+  invalidPathHandler,
+} from "./middleware/errorHandling.js";
+
 const port = process.env.PORT;
 const app = express();
 
@@ -29,6 +34,9 @@ app.use(cors(corsOptions));
 app.use(postsMainPath, postsRouter);
 
 app.get("/", endpointsInfosHTMLResponse);
+
+app.use(invalidPathHandler);
+app.use(errorResponder);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port} \n`);
