@@ -10,11 +10,16 @@ import {
   getAllPostsOfOneUser,
 } from "../controllers/usersControllers.js";
 
+import { userValidationRules, validate } from "../middleware/userValidator.js";
+
 const usersRouter = express.Router();
 
 const usersMainPath = "/users";
 
-usersRouter.route("/").get(getAllUsers).post(addUser);
+usersRouter
+  .route("/")
+  .get(getAllUsers)
+  .post(userValidationRules, validate, addUser);
 
 // usersRouter.route("/delete-all").delete(deleteAllUsers);
 
