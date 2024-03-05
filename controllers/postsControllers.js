@@ -1,14 +1,10 @@
-import Post from "../models/postsModel.js";
-import User from "../models/usersModel.js";
+import { Post } from "../models/postsModel.js";
+// import Users from "../models/";
 
 const getAllPosts = async (req, res) => {
   try {
-    const { limit, sortOrder } = req.query;
-    const posts = await Post.find().sort({ updatedAt: sortOrder }).limit(limit);
-    if (!posts.length) {
-      return res.status(404).json({ message: "Posts not found!" });
-    }
-    res.json(posts);
+    const posts = await Post.find().sort({ updatedAt: "descending" }).limit(10);
+    res.json(!posts.length);
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });

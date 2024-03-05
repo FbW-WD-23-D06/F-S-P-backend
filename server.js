@@ -15,6 +15,7 @@ const allowedOrigins = [
   "https://post-master.onrender.com",
   "http://localhost:5173",
 ];
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.includes(origin) || !origin) {
@@ -26,6 +27,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Middleware to log the method and path of each request
+app.use((req, res, next) => {
+  console.log(`current request infos: ${req.method}  ${req.path} \n`);
+  next();
+});
 
 app.use(postsMainPath, postsRouter);
 app.use(usersMainPath, usersRouter);
