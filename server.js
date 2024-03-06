@@ -5,7 +5,6 @@ import cors from "cors";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
 import { usersMainPath, usersRouter } from "./routes/usersRoutes.js";
 import { routesInfosHTML } from "./utils/routes-infos-HTML.js";
-
 import {
   errorResponder,
   invalidPathHandler,
@@ -42,7 +41,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
 
 app.use(postsMainPath, postsRouter);
 app.use(usersMainPath, usersRouter);
