@@ -11,6 +11,8 @@ import {
   getAllPostsOfOneUser,
 } from "../controllers/usersControllers.js";
 
+import { userValidationRules, validate } from "../middleware/userValidator.js";
+
 const usersRouter = express.Router();
 
 const usersMainPath = "/users";
