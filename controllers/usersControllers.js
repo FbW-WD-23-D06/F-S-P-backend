@@ -32,7 +32,7 @@ const register = async (req, res) => {
     const newUser = { userName, password: hashedPassword };
     await User.create(newUser);
     res
-      .status(200)
+      .status(201)
       .json({ message: "New User added! 🐒", newUser: { userName } });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -42,9 +42,17 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { userName, password } = req.body;
   try {
-    const foundUser = await User.find((data) => userName === data.userName);
-    console.log("🚀 ~ login ~ foundUser:", foundUser);
-    res.status(200).json({ message: "New User added! 🐒" });
+    const foundUser = await User.findOne({ userName });
+    if (!foundUser) {
+      return res.status(404).json({ message: "user not exists" });
+    }
+    const passwordsMatched = await bcrypt.compare(password, foundUser.password);
+    if (!passwordsMatched) {
+      return res.status(401).json({ message: "password is wrong" });
+    }
+    // delete foundUser.password;
+    const { userName } = foundUser;
+    res.status(200).json({ message: "login successfully", user: { userName } });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
