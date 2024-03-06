@@ -1,4 +1,5 @@
 import Post from "../models/postsModel.js";
+import User from "../models/usersModel.js";
 
 const getAllPosts = async (req, res) => {
   try {
