@@ -23,7 +23,7 @@ const getOneUser = async (req, res) => {
   }
 };
 
-const addUser = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { userName } = req.body;
     const newUser = { userName };
@@ -68,7 +68,7 @@ const updatePartialUser = async (req, res) => {};
 
 export {
   getAllUsers,
-  addUser,
+  register,
   deleteAllUsers,
   getOneUser,
   deleteUser,
