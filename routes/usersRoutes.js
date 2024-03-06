@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getAllUsers,
-  addUser,
+  register,
   // deleteAllUsers,
   getOneUser,
   deleteUser,
@@ -19,7 +19,7 @@ const usersMainPath = "/users";
 usersRouter
   .route("/")
   .get(getAllUsers)
-  .post(userValidationRules, validate, addUser);
+  .post(userValidationRules, validate, register);
 
 // usersRouter.route("/delete-all").delete(deleteAllUsers);
 

@@ -3,7 +3,7 @@ import Post from "../models/postsModel.js";
 const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find().sort({ updatedAt: "descending" }).limit(10);
-    res.json(!posts.length);
+    res.json(posts);
   } catch (error) {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
