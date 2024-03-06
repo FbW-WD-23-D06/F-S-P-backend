@@ -19,7 +19,7 @@ const usersMainPath = "/users";
 usersRouter.route("/").get(getAllUsers);
 
 usersRouter.route("/register").post(userValidationRules, register);
-usersRouter.route("/login").post(login);
+usersRouter.route("/login").post(userValidationRules, login);
 
 usersRouter.get("/posts/:id", getAllPostsOfOneUser);
 

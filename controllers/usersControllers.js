@@ -50,9 +50,9 @@ const login = async (req, res) => {
     if (!passwordsMatched) {
       return res.status(401).json({ message: "password is wrong" });
     }
-    // delete foundUser.password;
-    const { userName } = foundUser;
-    res.status(200).json({ message: "login successfully", user: { userName } });
+    const user = foundUser.toObject();
+    delete user.password;
+    res.status(200).json({ message: "login successfully", user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
