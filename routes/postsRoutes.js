@@ -10,11 +10,17 @@ import {
   getAllPostsWithAuthorInformations,
 } from "../controllers/postsControllers.js";
 
+import { postsValidationRules } from "../middleware/postsValidator.js";
+import { validate } from "../middleware/userValidator.js";
+
 const postsRouter = express.Router();
 
 const postsMainPath = "/posts";
 
-postsRouter.route("/").get(getAllPosts).post(addPost);
+postsRouter
+  .route("/")
+  .get(getAllPosts)
+  .post(postsValidationRules, validate, addPost);
 
 postsRouter.get("/author-infos", getAllPostsWithAuthorInformations);
 
