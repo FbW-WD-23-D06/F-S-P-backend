@@ -39,6 +39,17 @@ const register = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  const { userName, password } = req.body;
+  try {
+    const foundUser = await User.find((data) => userName === data.userName);
+    console.log("🚀 ~ login ~ foundUser:", foundUser);
+    res.status(200).json({ message: "New User added! 🐒" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -74,6 +85,7 @@ const updatePartialUser = async (req, res) => {};
 export {
   getAllUsers,
   register,
+  login,
   deleteAllUsers,
   getOneUser,
   deleteUser,

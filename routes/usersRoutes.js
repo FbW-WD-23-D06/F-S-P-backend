@@ -2,6 +2,7 @@ import express from "express";
 import {
   getAllUsers,
   register,
+  login,
   // deleteAllUsers,
   getOneUser,
   deleteUser,
@@ -14,7 +15,10 @@ const usersRouter = express.Router();
 
 const usersMainPath = "/users";
 
-usersRouter.route("/").get(getAllUsers).post(register);
+usersRouter.route("/").get(getAllUsers);
+
+usersRouter.route("/register").post(register);
+usersRouter.route("/login").post(login);
 
 // usersRouter.route("/delete-all").delete(deleteAllUsers);
 
