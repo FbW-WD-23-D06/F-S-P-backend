@@ -1,5 +1,6 @@
 import Post from "../models/postsModel.js";
 import User from "../models/usersModel.js";
+import bcrypt from "bcrypt";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -26,7 +27,9 @@ const getOneUser = async (req, res) => {
 const register = async (req, res) => {
   try {
     const { userName, password } = req.body;
-    const newUser = { userName, password };
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltOrRounds);
+    const newUser = { userName, password: hashedPassword };
     await User.create(newUser);
     res
       .status(200)
