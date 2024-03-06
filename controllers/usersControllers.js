@@ -25,10 +25,12 @@ const getOneUser = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { userName } = req.body;
-    const newUser = { userName };
+    const { userName, password } = req.body;
+    const newUser = { userName, password };
     await User.create(newUser);
-    res.status(200).json({ message: "New User added! 🐒", newUser });
+    res
+      .status(200)
+      .json({ message: "New User added! 🐒", newUser: { userName } });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
