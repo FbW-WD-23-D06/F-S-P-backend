@@ -2,8 +2,9 @@ import "./config.js";
 import "./db-connect.js";
 import express from "express";
 import cors from "cors";
-import endpointsInfosHTMLResponse from "./utils/endpointsInfosHTMLResponse.js";
 import { postsRouter, postsMainPath } from "./routes/postsRoutes.js";
+import { usersMainPath, usersRouter } from "./routes/usersRoutes.js";
+import { routesInfosHTML } from "./utils/routes-infos-HTML.js";
 
 import {
   errorResponder,
@@ -19,6 +20,7 @@ const allowedOrigins = [
   "https://post-master.onrender.com",
   "http://localhost:5173",
 ];
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.includes(origin) || !origin) {
@@ -31,9 +33,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(postsMainPath, postsRouter);
+// Middleware to log the method and path of each request
+app.use((req, res, next) => {
+  console.log(`current request infos: ${req.method}  ${req.path} \n`);
+  next();
+});
 
-app.get("/", endpointsInfosHTMLResponse);
+app.use(postsMainPath, postsRouter);
+app.use(usersMainPath, usersRouter);
+
+app.get("/", (req, res) => res.send(routesInfosHTML(app)));
 
 app.use(invalidPathHandler);
 app.use(errorResponder);

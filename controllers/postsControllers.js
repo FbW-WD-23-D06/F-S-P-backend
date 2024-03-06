@@ -1,8 +1,8 @@
-import { Post } from "../models/postsModel.js";
+import Post from "../models/postsModel.js";
 
-export const getAllPosts = async (req, res) => {
+const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().sort({ updatedAt: "descending" }).limit(10);
     res.json(posts);
   } catch (error) {
     console.log("error:", error);
@@ -10,10 +10,27 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
-export const addPost = async (req, res) => {
+const getAllPostsWithAuthorInformations = async (req, res) => {
   try {
-    const { title, content } = req.body;
-    const newPost = { title, content };
+    const posts = await Post.find().populate("author");
+    if (!posts.length) {
+      return res.status(404).json({ message: "Posts not found!" });
+    }
+    res.json({ message: "Posts found", posts });
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const addPost = async (req, res) => {
+  try {
+    const { title, content, author } = req.body;
+    const userExists = await User.findById(author);
+    if (!userExists) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const newPost = { title, content, author };
     await Post.create(newPost);
     res.json({ message: "new post addedd", newPost });
   } catch (error) {
@@ -22,7 +39,7 @@ export const addPost = async (req, res) => {
   }
 };
 
-export const deleteAllPosts = async (req, res) => {
+const deleteAllPosts = async (req, res) => {
   try {
     await Post.deleteMany();
     res.status(200).json({ msg: "All users deleted" });
@@ -32,7 +49,7 @@ export const deleteAllPosts = async (req, res) => {
   }
 };
 
-export const getOnePost = async (req, res) => {
+const getOnePost = async (req, res) => {
   try {
     const { id } = req.params;
     const post = await Post.findById(id);
@@ -46,7 +63,7 @@ export const getOnePost = async (req, res) => {
   }
 };
 
-export const deletePost = async (req, res) => {
+const deletePost = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedPost = await Post.findByIdAndDelete(id);
@@ -60,7 +77,7 @@ export const deletePost = async (req, res) => {
   }
 };
 
-export const updatePost = async (req, res) => {
+const updatePost = async (req, res) => {
   try {
     const { id } = req.params;
     const newPost = req.body;
@@ -77,7 +94,7 @@ export const updatePost = async (req, res) => {
   }
 };
 
-export const updatePartialPost = async (req, res) => {
+const updatePartialPost = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedPost = await Post.findByIdAndUpdate(
@@ -95,4 +112,15 @@ export const updatePartialPost = async (req, res) => {
     console.log("error:", error);
     res.status(500).json({ message: error.message });
   }
+};
+
+export {
+  getAllPosts,
+  addPost,
+  deleteAllPosts,
+  getOnePost,
+  deletePost,
+  updatePost,
+  updatePartialPost,
+  getAllPostsWithAuthorInformations,
 };
