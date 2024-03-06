@@ -15,4 +15,6 @@ const userValidationRules = [
   validate,
 ];
 
+
+
 export { userValidationRules };
