@@ -11,16 +11,12 @@ import {
 } from "../controllers/postsControllers.js";
 
 import { postsValidationRules } from "../middleware/postsValidator.js";
-import { validate } from "../middleware/userValidator.js";
 
 const postsRouter = express.Router();
 
 const postsMainPath = "/posts";
 
-postsRouter
-  .route("/")
-  .get(getAllPosts)
-  .post(postsValidationRules, validate, addPost);
+postsRouter.route("/").get(getAllPosts).post(postsValidationRules, addPost);
 
 postsRouter.get("/author-infos", getAllPostsWithAuthorInformations);
 

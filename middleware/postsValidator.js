@@ -1,4 +1,5 @@
 import { body } from "express-validator";
+import validate from "./validate.js";
 
 const postsValidationRules = [
   body("title")
@@ -11,6 +12,7 @@ const postsValidationRules = [
     .withMessage(
       "The content must to be at least 10 characters long and not longer than 2000 characters."
     ),
+  validate,
 ];
 
 export { postsValidationRules };
