@@ -50,6 +50,8 @@ const login = async (req, res) => {
     if (!passwordsMatched) {
       return res.status(401).json({ message: "password is wrong" });
     }
+    // convert the foundUser document to a plain js object
+    // we need to delete de password field, because we don't want to send it to the client
     const user = foundUser.toObject();
     delete user.password;
     res.status(200).json({ message: "login successfully", user });
