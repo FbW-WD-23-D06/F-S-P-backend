@@ -30,6 +30,10 @@ const register = async (req, res) => {
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
     const newUser = { userName, password: hashedPassword };
+    const userExists = await User.findOne({ userName })
+    if(userExists){
+      return res.status(400).json({ message: "User already exists" });
+    }
     await User.create(newUser);
     res
       .status(201)

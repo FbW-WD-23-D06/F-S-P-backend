@@ -6,7 +6,12 @@ import validate from "./validate.js";
  * @type {Array<Function>}
  */
 const userValidationRules = [
-  body("userName").isString().withMessage("The username must be a string."),
+  body("userName")
+    .isString()
+    .isLength(2)
+    .withMessage(
+      "The user name is requiered and must contain at least 2 characters."
+    ),
   body("password")
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[?!])[0-9a-zA-Z?!]{8,}$/)
     .withMessage(
