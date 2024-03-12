@@ -10,7 +10,7 @@ import {
   getAllPostsWithAuthorInformations,
 } from "../controllers/postsControllers.js";
 
-import { postsValidationRules } from "../middleware/postsValidator.js";
+import { postsValidationRules } from "../middleware/posts/postsValidator.js";
 
 const postsRouter = express.Router();
 

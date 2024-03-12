@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import validate from "./validate.js";
+import validate from "../validate.js";
 
 const postsValidationRules = [
   body("title")
