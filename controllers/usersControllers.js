@@ -49,12 +49,12 @@ const login = async (req, res) => {
     const foundUser = await User.findOne({ userName });
     if (!foundUser) {
       // nevere tell the user if the username exists or not or if the password is wrong!!!
-      return res.status(404).json({ message: "username or password are falase!" });
+      return res.status(404).json({ message: "user name or password are falase!" });
     }
     const passwordsMatched = await bcrypt.compare(password, foundUser.password);
     if (!passwordsMatched) {
       // nevere tell the user if the username exists or not or if the password is wrong!!!
-      return res.status(401).json({ message: "username or password are falase!" });
+      return res.status(401).json({ message: "user name or password are falase!" });
     }
     // convert the foundUser document to a plain js object
     // we need to delete de password field, because we don't want to send it to the client
