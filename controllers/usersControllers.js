@@ -58,9 +58,14 @@ const login = async (req, res) => {
     }
     // convert the foundUser document to a plain js object
     // we need to delete de password field, because we don't want to send it to the client
-    const user = foundUser.toObject();
-    delete user.password;
-    res.status(200).json({ message: "login successfully", user });
+    // const user = foundUser.toObject();
+    // delete user.password;
+    const payload = { userId: foundUser.id };
+    const token = jwt.sign(payload, process.env.SECRETKEY, {
+      expiresIn: "50s",
+    });
+    console.log("token", token);
+    res.status(200).json({ message: "login successfully", token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
