@@ -8,9 +8,9 @@ import validate from "./validate.js";
 const userValidationRules = [
   body("userName")
     .isString()
-    .isLength(2)
+    .isLength({ min: 2, max: 15 })
     .withMessage(
-      "The user name is requiered and must contain at least 2 characters."
+      "The user name is requiered and must contain at least 2 and max. 15 characters."
     ),
   body("password")
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[?!])[0-9a-zA-Z?!]{8,}$/)
