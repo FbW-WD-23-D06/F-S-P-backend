@@ -9,7 +9,6 @@ import {
 } from "../controllers/usersControllers.js";
 
 import { userValidationRules } from "../middleware/users/userValidator.js";
-import { authenticate } from "../middleware/users/authenticate.js";
 import { tokenValid } from "../middleware/users/tokenValid.js";
 
 const usersRouter = express.Router();
@@ -19,10 +18,10 @@ const usersMainPath = "/users";
 usersRouter.route("/").get(getAllUsers);
 
 usersRouter.route("/register").post(userValidationRules, register);
-usersRouter.route("/login").post(userValidationRules, authenticate, login);
+usersRouter.route("/login").post(userValidationRules, login);
 usersRouter.get("/posts/:id", getAllPostsOfOneUser);
 
-usersRouter.route("/tokenValid").post(tokenValid);
+usersRouter.route("/token-valid").post(tokenValid);
 
 usersRouter.route("/:id").get(getOneUser).delete(deleteUser);
 

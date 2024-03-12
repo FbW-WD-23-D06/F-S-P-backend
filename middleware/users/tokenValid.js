@@ -6,13 +6,13 @@ import createError from "http-errors";
 export const tokenValid = async (req, res, next) => {
   try {
     const token = req.header("auth-token");
-    console.log("🚀 ~ tokenValid ~ token:", token)
+    console.log("🚀 ~ tokenValid ~ token:", token);
     if (!token) {
       return next(createError(401, "no token"));
     }
-    const decode = await jwt.verify(token, process.env.SECRETKEY); // throw an error
-    console.log("🚀 ~ tokenValid ~ decode:", decode)
-    return res.json(true);
+    const decode = jwt.verify(token, process.env.SECRETKEY); // throw an error
+    console.log("🚀 ~ tokenValid ~ decode:", decode);
+    return res.json(decode);
     // req.user = decode;
     // next();
   } catch (error) {

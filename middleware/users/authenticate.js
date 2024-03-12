@@ -6,12 +6,12 @@ import createError from "http-errors";
 export const authenticate = async (req, res, next) => {
   try {
     const token = req.header("auth-token");
-    console.log("🚀 ~ authenticate ~ token:", token)
+    console.log("🚀 ~ authenticate ~ token:", token);
     if (!token) {
       return next(createError(401, "no token"));
     }
-    const decode = await jwt.verify(token, process.env.SECRETKEY); // throw an error
-    console.log("🚀 ~ authenticate ~ decode:", decode)
+    const decode = jwt.verify(token, process.env.SECRETKEY);
+    console.log("🚀 ~ authenticate ~ decode:", decode);
     req.user = decode;
     next();
   } catch (error) {

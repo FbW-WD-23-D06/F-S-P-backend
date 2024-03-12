@@ -1,6 +1,7 @@
 import Post from "../models/postsModel.js";
 import User from "../models/usersModel.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -60,9 +61,9 @@ const login = async (req, res) => {
     // we need to delete de password field, because we don't want to send it to the client
     // const user = foundUser.toObject();
     // delete user.password;
-    const payload = { userId: foundUser.id };
+    const payload = { user: foundUser };
     const token = jwt.sign(payload, process.env.SECRETKEY, {
-      expiresIn: "50s",
+      expiresIn: "1h",
     });
     console.log("token", token);
     res.status(200).json({ message: "login successfully", token });
