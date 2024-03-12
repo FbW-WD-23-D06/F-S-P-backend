@@ -10,6 +10,7 @@ import {
 
 import { userValidationRules } from "../middleware/users/userValidator.js";
 import { authenticate } from "../middleware/users/authenticate.js";
+import { tokenValid } from "../middleware/users/tokenValid.js";
 
 const usersRouter = express.Router();
 
@@ -19,8 +20,9 @@ usersRouter.route("/").get(getAllUsers);
 
 usersRouter.route("/register").post(userValidationRules, register);
 usersRouter.route("/login").post(userValidationRules, authenticate, login);
-
 usersRouter.get("/posts/:id", getAllPostsOfOneUser);
+
+usersRouter.route("/tokenValid").post(tokenValid);
 
 usersRouter.route("/:id").get(getOneUser).delete(deleteUser);
 
