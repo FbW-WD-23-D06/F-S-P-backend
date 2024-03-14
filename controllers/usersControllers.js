@@ -25,14 +25,22 @@ const getOneUser = async (req, res) => {
   }
 };
 
+const getAuthUser = async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const register = async (req, res) => {
   try {
     const { userName, password } = req.body;
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
     const newUser = { userName, password: hashedPassword };
-    const userExists = await User.findOne({ userName })
-    if(userExists){
+    const userExists = await User.findOne({ userName });
+    if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
     await User.create(newUser);
@@ -50,23 +58,34 @@ const login = async (req, res) => {
     const foundUser = await User.findOne({ userName });
     if (!foundUser) {
       // nevere tell the user if the username exists or not or if the password is wrong!!!
-      return res.status(404).json({ message: "user name or password are falase!" });
+      return res
+        .status(404)
+        .json({ message: "user name or password are falase!" });
     }
     const passwordsMatched = await bcrypt.compare(password, foundUser.password);
     if (!passwordsMatched) {
       // nevere tell the user if the username exists or not or if the password is wrong!!!
-      return res.status(401).json({ message: "user name or password are falase!" });
+      return res
+        .status(401)
+        .json({ message: "user name or password are falase!" });
     }
     // convert the foundUser document to a plain js object
     // we need to delete de password field, because we don't want to send it to the client
     const user = foundUser.toObject();
     delete user.password;
-    const payload = { user: foundUser };
+    const payload = { user };
     const token = jwt.sign(payload, process.env.SECRETKEY, {
       expiresIn: "1h",
     });
     console.log("token", token);
-    res.status(200).json({ message: "login successfully", token });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        // sameSite: "lax",
+        // secure: false
+      })
+      .status(200)
+      .json({ message: "login successfully", token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -110,6 +129,7 @@ export {
   login,
   deleteAllUsers,
   getOneUser,
+  getAuthUser,
   deleteUser,
   updateUser,
   updatePartialUser,
