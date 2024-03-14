@@ -21,10 +21,12 @@ const allowedOrigins = [
   "https://post-master.onrender.com",
   "http://localhost:5173",
   "http://localhost:5174",
+  "http://localhost/*"
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
+    console.log('origin:',origin);
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
