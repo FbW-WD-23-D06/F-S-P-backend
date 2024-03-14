@@ -20,6 +20,7 @@ app.use(express.json());
 const allowedOrigins = [
   "https://post-master.onrender.com",
   "http://localhost:5173",
+  "http://localhost:5174",
 ];
 
 const corsOptions = {
@@ -30,6 +31,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
+  credentials: true,
 };
 
 app.use(cors(corsOptions));

@@ -5,14 +5,17 @@ import createError from "http-errors";
 
 export const authenticate = async (req, res, next) => {
   try {
-    const token = req.header("auth-token");
+    const cookies = req.cookies;
+    console.log("🚀 ~ authenticate ~ cookies:", cookies);
+    const token = cookies.token;
+    console.log("🚀 ~ authenticate ~ token:", token);
     console.log("🚀 ~ authenticate ~ token:", token);
     if (!token) {
       return next(createError(401, "no token"));
     }
-    const decode = jwt.verify(token, process.env.SECRETKEY);
-    console.log("🚀 ~ authenticate ~ decode:", decode);
-    req.user = decode;
+    const decoded = jwt.verify(token, process.env.SECRETKEY);
+    console.log("🚀 ~ authenticate ~ decoded:", decoded);
+    req.user = decoded;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
