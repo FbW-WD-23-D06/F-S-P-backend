@@ -27,7 +27,10 @@ const getOneUser = async (req, res) => {
 
 const getAuthUser = async (req, res) => {
   try {
-    res.status(200).json(req.user);
+    const userID = req.userID;
+    console.log("🚀 ~ getAuthUser ~ userID:", userID)
+    const user = await User.findById(userID);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -73,19 +76,19 @@ const login = async (req, res) => {
     // we need to delete de password field, because we don't want to send it to the client
     const user = foundUser.toObject();
     delete user.password;
-    const payload = { user };
+
+    const payload = { userID: user._id };
     const token = jwt.sign(payload, process.env.SECRETKEY, {
       expiresIn: "1h",
     });
     console.log("token", token);
+    // send the token to the client as a cookie, and the user to have the user data in the client side
     res
       .cookie("token", token, {
         httpOnly: true,
-        // sameSite: "lax",
-        // secure: false
       })
       .status(200)
-      .json({ message: "login successfully", token });
+      .json({ message: "login successfully", user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

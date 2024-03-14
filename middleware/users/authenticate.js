@@ -9,13 +9,12 @@ export const authenticate = async (req, res, next) => {
     console.log("🚀 ~ authenticate ~ cookies:", cookies);
     const token = cookies.token;
     console.log("🚀 ~ authenticate ~ token:", token);
-    console.log("🚀 ~ authenticate ~ token:", token);
     if (!token) {
       return next(createError(401, "no token"));
     }
     const decoded = jwt.verify(token, process.env.SECRETKEY);
     console.log("🚀 ~ authenticate ~ decoded:", decoded);
-    req.user = decoded;
+    req.userID = decoded.userID;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
