@@ -48,7 +48,7 @@ const register = async (req, res) => {
     }
     await User.create(newUser);
     res
-      .status(201)
+      .status(200)
       .json({ message: "New User added! 🐒", newUser: { userName } });
   } catch (error) {
     res.status(500).json({ message: error.message });
