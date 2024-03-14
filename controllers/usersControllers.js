@@ -59,8 +59,8 @@ const login = async (req, res) => {
     }
     // convert the foundUser document to a plain js object
     // we need to delete de password field, because we don't want to send it to the client
-    // const user = foundUser.toObject();
-    // delete user.password;
+    const user = foundUser.toObject();
+    delete user.password;
     const payload = { user: foundUser };
     const token = jwt.sign(payload, process.env.SECRETKEY, {
       expiresIn: "1h",
