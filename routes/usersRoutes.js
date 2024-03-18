@@ -3,6 +3,7 @@ import {
   getAllUsers,
   register,
   login,
+  logout,
   getOneUser,
   deleteUser,
   getAllPostsOfOneUser,
@@ -21,6 +22,8 @@ usersRouter.route("/").get(getAllUsers);
 
 usersRouter.route("/register").post(userValidationRules, register);
 usersRouter.route("/login").post(userValidationRules, login);
+usersRouter.route("/logout").post(logout);
+
 usersRouter.get("/posts/:id", getAllPostsOfOneUser);
 
 usersRouter.route("/token-valid").post(tokenValid);
