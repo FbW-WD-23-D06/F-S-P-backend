@@ -8,6 +8,7 @@ import {
   deleteUser,
   getAllPostsOfOneUser,
   getAuthUser,
+  updatePartialUser
 } from "../controllers/usersControllers.js";
 
 import { userValidationRules } from "../middleware/users/userValidator.js";
@@ -29,7 +30,7 @@ usersRouter.get("/posts/:id", getAllPostsOfOneUser);
 usersRouter.route("/token-valid").post(tokenValid);
 
 usersRouter.route("/auth-user-data").get(authenticate, getAuthUser);
+usersRouter.route("/:id").get(getOneUser).delete(deleteUser).patch(updatePartialUser);
 
-usersRouter.route("/:id").get(getOneUser).delete(deleteUser);
 
 export { usersRouter, usersMainPath };

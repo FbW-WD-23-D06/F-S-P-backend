@@ -2,9 +2,10 @@ import Post from "../models/postsModel.js";
 import User from "../models/usersModel.js";
 
 const getAllPosts = async (req, res) => {
-  const {limit, sortOrder} = req.query;
+  const { limit, sortOrder } = req.query;
   try {
-    const posts = await Post.find().sort({ updatedAt: sortOrder }).limit(limit);
+    const posts = await Post.find() /*.sort({ updatedAt: sortOrder })*/
+      .limit(limit);
     res.json(posts);
   } catch (error) {
     console.log("error:", error);

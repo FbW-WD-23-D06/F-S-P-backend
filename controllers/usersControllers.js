@@ -137,7 +137,28 @@ const deleteAllUsers = async (req, res) => {};
 
 const updateUser = async (req, res) => {};
 
-const updatePartialUser = async (req, res) => {};
+
+const updatePartialUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log('req.body:',req.body);
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      {
+        new: true,
+      }
+    );
+    console.log("🚀 ~ updatePartialUser ~ updatedUser:", updatedUser)
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    res.json({ message: "User updated", updatedUser });
+  } catch (error) {
+    console.log("error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export {
   getAllUsers,
