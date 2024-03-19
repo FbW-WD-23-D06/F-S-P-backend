@@ -142,6 +142,11 @@ const updatePartialUser = async (req, res) => {
   try {
     const { id } = req.params;
     console.log('req.body:',req.body);
+    const userExists = await User.findOne({ userName: req.body.userName });
+    console.log("🚀 ~ updatePartialUser ~ userExists:", userExists)
+    if (userExists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
     const updatedUser = await User.findByIdAndUpdate(
       id,
       { $set: req.body },
@@ -153,6 +158,8 @@ const updatePartialUser = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found!" });
     }
+    // const user = updatedUser.toObject();
+    // delete user.password;
     res.json({ message: "User updated", updatedUser });
   } catch (error) {
     console.log("error:", error);
