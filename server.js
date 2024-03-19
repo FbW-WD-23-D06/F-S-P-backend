@@ -41,7 +41,7 @@ app.use(cors(corsOptions));
 // Middleware to log the method and path of each request, and the body of POST requests
 app.use((req, res, next) => {
   console.log(`current request infos: ${req.method}  ${req.path}`);
-  if (req.method === "POST") {
+  if (req.method !== "GET") {
     console.log(`req.body: ${JSON.stringify(req.body)}`);
   }
   console.log("\n");

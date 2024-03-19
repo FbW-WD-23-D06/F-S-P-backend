@@ -28,7 +28,7 @@ const getOneUser = async (req, res) => {
 const getAuthUser = async (req, res) => {
   try {
     const userID = req.userID;
-    console.log("🚀 ~ getAuthUser ~ userID:", userID)
+    console.log("🚀 ~ getAuthUser ~ userID:", userID);
     const foundUser = await User.findById(userID);
     const user = foundUser.toObject();
     delete user.password;
@@ -98,10 +98,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    res
-      .clearCookie("token")
-      .status(200)
-      .json({ message: "logout successful" });
+    res.clearCookie("token").status(200).json({ message: "logout successful" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -137,29 +134,27 @@ const deleteAllUsers = async (req, res) => {};
 
 const updateUser = async (req, res) => {};
 
-
 const updatePartialUser = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('req.body:',req.body);
+    console.log("req.body:", req.body);
     const userExists = await User.findOne({ userName: req.body.userName });
-    console.log("🚀 ~ updatePartialUser ~ userExists:", userExists)
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const updatedUser = await User.findByIdAndUpdate(
+    const userToUpdate = await User.findByIdAndUpdate(
       id,
       { $set: req.body },
       {
         new: true,
       }
     );
-    console.log("🚀 ~ updatePartialUser ~ updatedUser:", updatedUser)
-    if (!updatedUser) {
+    console.log("🚀 ~ updatePartialUser ~ userToUpdate:", userToUpdate);
+    if (!userToUpdate) {
       return res.status(404).json({ message: "User not found!" });
     }
-    // const user = updatedUser.toObject();
-    // delete user.password;
+    const updatedUser = userToUpdate.toObject();
+    delete updatedUser.password;
     res.json({ message: "User updated", updatedUser });
   } catch (error) {
     console.log("error:", error);
