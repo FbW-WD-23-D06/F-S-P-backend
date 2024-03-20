@@ -1,20 +1,27 @@
-import cloudinary from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import "./config.js";
+import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
+import path from "path";
 
 // Cloudinary configuration
-cloudinary.v2.config({
+cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+
 // Multer configuration
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary.v2,
-  params: {
-    folder: "post_paster",
+export const cloudinaryMulter = multer({
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, cb) => {
+    console.log('req:',req);
+    let ext = path.extname(file.originalname);
+    console.log('file:',file);
+    if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".png" &&) {
+      cb(new Error("File type is not supported"), false);
+      return;
+    }
+    cb(null, true);
   },
 });
-
-export const cloudinaryMulter = multer({ storage: storage });

@@ -2,6 +2,7 @@ import Post from "../models/postsModel.js";
 import User from "../models/usersModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { v2 as cloudinary } from "cloudinary";
 
 const getAllUsers = async (req, res) => {
   try {
@@ -43,15 +44,24 @@ const register = async (req, res) => {
     const { userName, password } = req.body;
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
-    const newUser = { userName, password: hashedPassword };
+    const newUser = {
+      userName,
+      password: hashedPassword,
+      avatarImg: {
+        url: "https://ionicframework.com/docs/img/demos/avatar.svg",
+        id: "",
+      },
+    };
     const userExists = await User.findOne({ userName });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
     await User.create(newUser);
-    res
-      .status(200)
-      .json({ message: "New User added! 🐒", newUser: { userName } });
+    delete newUser.password;
+    res.status(200).json({
+      message: "New User added! 🐒",
+      newUser,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -162,6 +172,30 @@ const updatePartialUser = async (req, res) => {
   }
 };
 
+const uploadAvatarImg = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fileImg = await cloudinary.uploader.upload(req.file.path);
+    console.log("🚀 ~ uploadAvatarImg ~ fileImg:", fileImg);
+    const { secure_url, public_id } = fileImg;
+
+    const userToUpdate = await User.findByIdAndUpdate(
+      id,
+      { avatarImg: { url: secure_url, id: public_id } },
+      { new: true }
+    );
+    console.log("🚀 ~ updatePartialUser ~ userToUpdate:", userToUpdate);
+    if (!userToUpdate) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    const updatedUser = userToUpdate.toObject();
+    delete updatedUser.password;
+    res.json({ message: "User updated", updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export {
   getAllUsers,
   register,
@@ -174,4 +208,5 @@ export {
   updateUser,
   updatePartialUser,
   getAllPostsOfOneUser,
+  uploadAvatarImg,
 };

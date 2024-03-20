@@ -22,6 +22,7 @@ postsRouter.get("/author-infos", getAllPostsWithAuthorInformations);
 
 postsRouter.route("/delete-all").delete(deleteAllPosts);
 
+
 postsRouter
   .route("/:id")
   .get(getOnePost)
