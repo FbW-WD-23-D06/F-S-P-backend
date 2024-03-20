@@ -13,7 +13,11 @@ const userSchema = new Schema(
       type: String,
       required: true,
       minLength: 8,
-    }
+    },
+    avatarImg: {
+      type: String,
+      default: "https://ionicframework.com/docs/img/demos/avatar.svg",
+    },
   },
   { timestamps: true, versionKey: false }
 );
