@@ -2,10 +2,12 @@ import Post from "../models/postsModel.js";
 import User from "../models/usersModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { db } from "../db-connect.js";
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    // const users = await User.find();
+    const users = await db.query("SELECT * FROM users");
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -43,12 +45,38 @@ const register = async (req, res) => {
     const { userName, password } = req.body;
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
-    const newUser = { userName, password: hashedPassword };
-    const userExists = await User.findOne({ userName });
-    if (userExists) {
+    // const newUser = { userName, password: hashedPassword };
+    // const userExists = await User.findOne({ userName });
+
+    const userExistsQuery = {
+      text: `SELECT * FROM users WHERE userName = $1`,
+      values: [userName],
+    };
+
+    const userExists = await db.query(
+      //   `SELECT * FROM users WHERE userName = '${userName}'`
+      userExistsQuery
+    );
+    console.log("userExists:", userExists);
+    // if (userExists) {
+    //   return res.status(400).json({ message: "User already exists" });
+    // }
+    // await User.create(newUser);
+
+    if (userExists.rows.length > 0) {
       return res.status(400).json({ message: "User already exists" });
     }
-    await User.create(newUser);
+
+    const insertUserQuery = {
+      text: `INSERT INTO users (userName, password) VALUES ($1, $2)`,
+      values: [userName, hashedPassword],
+    };
+
+    await db.query(
+      // `INSERT INTO users (userName, password) VALUES ('${userName}', '${hashedPassword}')`
+      insertUserQuery
+    );
+
     res
       .status(200)
       .json({ message: "New User added! 🐒", newUser: { userName } });
